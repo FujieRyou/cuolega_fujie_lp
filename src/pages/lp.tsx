@@ -158,182 +158,221 @@ export default function ContactForm() {
     }, []);
 
     return (
-        <div className="container mx-auto px-4 py-10 max-w-md">
-            <Head>
-                <title>Engineer FujieRyo</title>
-            </Head>
-            <h1 className="text-2xl font-bold mb-6">お問い合わせ</h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                {/* 名前フィールド */}
-                <div>
-                    <label htmlFor="name" className="block mb-1">
-                        お名前 <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded-md"
-                    />
-                    {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-                </div>
+        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12">
+            <div className="container mx-auto px-4 max-w-lg">
+                <Head>
+                    <title>Engineer FujieRyo | お問い合わせ</title>
+                </Head>
 
-                {/* メールアドレスフィールド */}
-                <div>
-                    <label htmlFor="email" className="block mb-1">
-                        メールアドレス <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded-md"
-                    />
-                    {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-                </div>
-
-                {/* 生年月日フィールド */}
-                <div>
-                    <label className="block mb-1">
-                        生年月日
-                    </label>
-                    <div className="flex space-x-2">
-                        <select
-                            name="birthdateYear"
-                            value={formData.birthdateYear}
-                            onChange={handleChange}
-                            className="px-3 py-2 border rounded-md"
-                        >
-                            <option value="">年</option>
-                            {years.map(year => (
-                                <option key={year} value={year}>{year}</option>
-                            ))}
-                        </select>
-                        <select
-                            name="birthdateMonth"
-                            value={formData.birthdateMonth}
-                            onChange={handleChange}
-                            className="px-3 py-2 border rounded-md"
-                        >
-                            <option value="">月</option>
-                            {months.map(month => (
-                                <option key={month} value={month}>{month}</option>
-                            ))}
-                        </select>
-                        <select
-                            name="birthdateDay"
-                            value={formData.birthdateDay}
-                            onChange={handleChange}
-                            className="px-3 py-2 border rounded-md"
-                        >
-                            <option value="">日</option>
-                            {days.map(day => (
-                                <option key={day} value={day}>{day}</option>
-                            ))}
-                        </select>
+                <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div className="bg-blue-600 px-6 py-4">
+                        <h1 className="text-2xl font-bold text-white">お問い合わせ</h1>
+                        <p className="text-blue-100 mt-1">ご質問・ご相談はこちらから</p>
                     </div>
-                    {(errors.birthdateYear || errors.birthdateMonth || errors.birthdateDay) && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {errors.birthdateYear || errors.birthdateMonth || errors.birthdateDay}
-                        </p>
-                    )}
+
+                    <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                        {/* 名前フィールド */}
+                        <div className="space-y-2">
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                お名前 <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                placeholder="山田 太郎"
+                            />
+                            {errors.name && <p className="text-red-500 text-xs italic">{errors.name}</p>}
+                        </div>
+
+                        {/* メールアドレスフィールド */}
+                        <div className="space-y-2">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                メールアドレス <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                placeholder="email@example.com"
+                            />
+                            {errors.email && <p className="text-red-500 text-xs italic">{errors.email}</p>}
+                        </div>
+
+                        {/* 生年月日フィールド */}
+                        <div className="space-y-2">
+                            <label className="block text-sm font-medium text-gray-700">
+                                生年月日
+                            </label>
+                            <div className="grid grid-cols-3 gap-2">
+                                <select
+                                    name="birthdateYear"
+                                    value={formData.birthdateYear}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                >
+                                    <option value="">年</option>
+                                    {years.map(year => (
+                                        <option key={year} value={year}>{year}</option>
+                                    ))}
+                                </select>
+                                <select
+                                    name="birthdateMonth"
+                                    value={formData.birthdateMonth}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                >
+                                    <option value="">月</option>
+                                    {months.map(month => (
+                                        <option key={month} value={month}>{month}</option>
+                                    ))}
+                                </select>
+                                <select
+                                    name="birthdateDay"
+                                    value={formData.birthdateDay}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                >
+                                    <option value="">日</option>
+                                    {days.map(day => (
+                                        <option key={day} value={day}>{day}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            {(errors.birthdateYear || errors.birthdateMonth || errors.birthdateDay) && (
+                                <p className="text-red-500 text-xs italic">
+                                    {errors.birthdateYear || errors.birthdateMonth || errors.birthdateDay}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* 部署フィールド */}
+                        <div className="space-y-2">
+                            <label htmlFor="departmentName" className="block text-sm font-medium text-gray-700">
+                                お問い合わせ部署
+                            </label>
+                            <select
+                                id="departmentName"
+                                name="departmentName"
+                                value={formData.departmentName}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                            >
+                                <option value="">選択してください</option>
+                                {departments.map(dept => (
+                                    <option key={dept} value={dept}>{dept}</option>
+                                ))}
+                            </select>
+                            {errors.departmentName &&
+                                <p className="text-red-500 text-xs italic">{errors.departmentName}</p>}
+                        </div>
+
+                        {/* 住所フィールド */}
+                        <div className="space-y-2">
+                            <label htmlFor="address" className="block text-sm font-medium text-gray-700">
+                                住所 <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="address"
+                                name="address"
+                                value={formData.address}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                placeholder="例: 東京都千代田区〇〇町1-1-1"
+                            />
+                            {errors.address && <p className="text-red-500 text-xs italic">{errors.address}</p>}
+                        </div>
+
+                        {/* お問い合わせ内容フィールド */}
+                        <div className="space-y-2">
+                            <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                                お問い合わせ内容 <span className="text-red-500">*</span>
+                            </label>
+                            <textarea
+                                id="message"
+                                name="message"
+                                value={formData.message}
+                                onChange={handleChange}
+                                rows={5}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                placeholder="お問い合わせ内容を入力してください"
+                            ></textarea>
+                            {errors.message && <p className="text-red-500 text-xs italic">{errors.message}</p>}
+                        </div>
+
+                        {/* 利用規約の同意 */}
+                        <div className="pt-2">
+                            <div className="flex items-start">
+                                <div className="flex items-center h-5">
+                                    <input
+                                        type="checkbox"
+                                        id="termOfService"
+                                        name="termOfService"
+                                        checked={formData.termOfService === 'agreed'}
+                                        onChange={handleChange}
+                                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                    />
+                                </div>
+                                <div className="ml-3 text-sm">
+                                    <label htmlFor="termOfService" className="font-medium text-gray-700">
+                                        <span className="text-red-500 mr-1">*</span>
+                                        <a href="/terms" target="_blank"
+                                           className="text-blue-600 hover:text-blue-800 underline">利用規約</a>に同意します
+                                    </label>
+                                </div>
+                            </div>
+                            {errors.termOfService &&
+                                <p className="text-red-500 text-xs italic mt-1">{errors.termOfService}</p>}
+                        </div>
+
+                        {/* reCAPTCHA */}
+                        <div className="flex justify-center pt-4">
+                            <ReCAPTCHA
+                                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+                                onChange={handleRecaptchaChange}
+                                theme="light"
+                                size="normal"
+                                onErrored={() => console.error('reCAPTCHA エラー')}
+                            />
+                        </div>
+                        {errors.recaptcha &&
+                            <p className="text-red-500 text-xs italic text-center">{errors.recaptcha}</p>}
+
+                        {/* 送信ボタン */}
+                        <div className="pt-4">
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md shadow-md transition-all transform hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:pointer-events-none"
+                            >
+                                {isSubmitting ? (
+                                    <div className="flex items-center justify-center">
+                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                    strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor"
+                                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        送信中...
+                                    </div>
+                                ) : '送信する'}
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
-                {/* 部署フィールド */}
-                <div>
-                    <label htmlFor="departmentName" className="block mb-1">
-                        お問い合わせ部署
-                    </label>
-                    <select
-                        id="departmentName"
-                        name="departmentName"
-                        value={formData.departmentName}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded-md"
-                    >
-                        <option value="">選択してください</option>
-                        {departments.map(dept => (
-                            <option key={dept} value={dept}>{dept}</option>
-                        ))}
-                    </select>
-                    {errors.departmentName && <p className="text-red-500 text-sm mt-1">{errors.departmentName}</p>}
-                </div>
-
-                {/* 住所フィールド */}
-                <div>
-                    <label htmlFor="address" className="block mb-1">
-                        住所 <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="address"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded-md"
-                        placeholder="例: 東京都千代田区〇〇町1-1-1"
-                    />
-                    {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
-                </div>
-
-                {/* お問い合わせ内容フィールド */}
-                <div>
-                    <label htmlFor="message" className="block mb-1">
-                        お問い合わせ内容 <span className="text-red-500">*</span>
-                    </label>
-                    <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        rows={5}
-                        className="w-full px-3 py-2 border rounded-md"
-                    ></textarea>
-                    {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
-                </div>
-
-                {/* 利用規約の同意 */}
-                <div className="flex items-start">
-                    <input
-                        type="checkbox"
-                        id="termOfService"
-                        name="termOfService"
-                        checked={formData.termOfService === 'agreed'}
-                        onChange={handleChange}
-                        className="mt-1 mr-2"
-                    />
-                    <label htmlFor="termOfService" className="text-sm">
-                        <span className="text-red-500 mr-1">*</span>
-                        <a href="/terms" target="_blank" className="text-blue-500 hover:underline">利用規約</a>に同意します
-                    </label>
-                </div>
-                {errors.termOfService && <p className="text-red-500 text-sm mt-1">{errors.termOfService}</p>}
-
-                {/* reCAPTCHA */}
-                <div className="flex justify-center my-4">
-                    <ReCAPTCHA
-                        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
-                        onChange={handleRecaptchaChange}
-                        theme="light" // テーマを指定
-                        size="normal" // サイズを指定
-                        onErrored={() => console.error('reCAPTCHA エラー')} // エラーハンドリング
-                    />
-                </div>
-                {errors.recaptcha && <p className="text-red-500 text-sm mt-1 text-center">{errors.recaptcha}</p>}
-
-                {/* 送信ボタン */}
-                <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md disabled:opacity-50"
-                >
-                    {isSubmitting ? '送信中...' : '送信する'}
-                </button>
-            </form>
+                <p className="text-center text-gray-500 text-sm mt-8">
+                    お問い合わせいただきありがとうございます。通常2営業日以内にご返信いたします。
+                </p>
+            </div>
         </div>
     );
 }
