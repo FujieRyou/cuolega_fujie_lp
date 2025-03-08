@@ -8,7 +8,7 @@ export default function HomePage() {
             <header className="bg-white shadow-sm">
                 <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                     <div className="flex items-center">
-                        <h1 className="text-xl font-bold text-gray-800">藤江'sサイト</h1>
+                        <h1 className="text-xl font-bold text-gray-800">藤江&apos;sサイト</h1>
                     </div>
                     <nav>
                         <ul className="flex space-x-6">
@@ -21,7 +21,7 @@ export default function HomePage() {
             </header>
             <footer>
                 <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-                    <p>© 2025 藤江'sサイト All rights reserved.</p>
+                    <p>© 2025 藤江&apos;sサイト All rights reserved.</p>
                 </div>
             </footer>
         </div>
