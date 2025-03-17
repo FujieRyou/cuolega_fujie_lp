@@ -17,6 +17,11 @@ export default function HomePage() {
         triggerOnce: true,
         threshold: 0.1,
     });
+
+    const [formRef, formView] = useInView({
+        triggerOnce: true,
+        threshold: 0.1,
+    })
     const [showHeader, setShowHeader] = useState(false);
 
     useEffect(() => {
@@ -277,6 +282,16 @@ export default function HomePage() {
                         </motion.div>
                     </div>
                 </motion.div>
+                <motion.div ref={formRef}
+                            initial="hidden"
+                            animate={formView ? "visible" : "hidden"}
+                            className="container mx-auto px-4 py-16 bg-gray-50 flex justify-center align-center">
+                    <Link href="/lp"
+                          className="inline-block py-3 px-6 border border-orange-500 text-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-colors duration-300">
+                        感想はこちらまでお願いします
+                    </Link>
+                </motion.div>
+
             </main>
             <footer>
                 <div className="py-5 border-t border-gray-700 text-center text-gray-400">
