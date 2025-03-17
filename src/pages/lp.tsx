@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import Head from 'next/head';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-// フォームデータの型定義
+
 interface FormData {
     name: string;
     email: string;

@@ -80,19 +80,22 @@ export default function Project1() {
     ];
 
     // 値と名前のマッピングを作成して型エラーを回避
-    const getValueType = (value: any, name: string) => {
-        // 値を数値に変換して処理
-        const numValue = Number(value);
+    // Rechartsの型定義に合わせた型を使用
+    type ValueType = string | number | Array<string | number>;
+
+    const getValueType = (value: ValueType, name: string): string => {
+        // 値を数値に変換して処理（配列の場合は最初の要素を使用）
+        const numValue = Array.isArray(value) ? Number(value[0]) : Number(value);
 
         // 比率かどうかを名前で判断
         const isRatio = name === '比率' || name === '転換者/未転換者比率';
 
         // 比率の場合、またはnumValueが100より大きい場合は%を付ける
         if (isRatio || numValue > 100) {
-            return `${value}%`;
+            return `${Array.isArray(value) ? value[0] : value}%`;
         }
 
-        return `${value}%`;
+        return `${Array.isArray(value) ? value[0] : value}%`;
     };
 
     return (
@@ -188,9 +191,11 @@ export default function Project1() {
                                 label={isMobile ? {} : { value: '比率 (%)', angle: 90, position: 'insideRight' }}
                                 domain={[0, 700]}
                             />
-                            <Tooltip formatter={(value, name) => {
-                                return [getValueType(value, name as string), name];
-                            }} />
+                            <Tooltip
+                                formatter={(value, name) => {
+                                    return [getValueType(value, name as string), name];
+                                }}
+                            />
                             <Legend
                                 layout={isMobile ? "horizontal" : "vertical"}
                                 verticalAlign={isMobile ? "bottom" : "middle"}
@@ -244,7 +249,12 @@ export default function Project1() {
                                 domain={[0, 15]}
                                 label={isMobile ? {} : { value: '決定率 (%)', angle: -90, position: 'insideLeft' }}
                             />
-                            <Tooltip formatter={(value) => [`${value}%`, '平均決定率']} />
+                            <Tooltip
+                                formatter={(value): [string, string] => {
+                                    const formattedValue = Array.isArray(value) ? `${value[0]}%` : `${value}%`;
+                                    return [formattedValue, '平均決定率'];
+                                }}
+                            />
                             <Legend />
                             <Bar dataKey="value" name="平均決定率" fill="#8884d8">
                                 {summaryData.map((entry, index) => (
@@ -264,7 +274,7 @@ export default function Project1() {
                     </p>
                 </div>
             </motion.div>
-            <motion.div variants={item}>
+            <motion.div variants={item} style={{display:"flex", justifyContent:"center"}}>
                 <Link href="/" passHref>
                     <motion.button
                         whileHover={{
@@ -273,19 +283,20 @@ export default function Project1() {
                         }}
                         whileTap={{ scale: 0.98 }}
                         style={{
-                            display: 'block',
-                            width: '100%',
-                            padding: '20px',
-                            backgroundColor: '#e2e2e2',
-                            border: 'none',
+                            display: 'inline-block',
+                            padding: '12px 56px',
+                            backgroundColor: 'transparent',
+                            border: '1px solid #ff5722',
+                            color: '#ff5722',
                             textAlign: 'center',
-                            fontSize: '18px',
-                            color: '#555',
+                            fontSize: '16px',
+                            fontWeight: '500',
                             cursor: 'pointer',
-                            borderRadius: '2px'
+                            borderRadius: '8px',
+                            transition: 'all 0.3s ease'
                         }}
                     >
-                        home
+                        Home
                     </motion.button>
                 </Link>
             </motion.div>

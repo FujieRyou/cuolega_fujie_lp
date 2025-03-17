@@ -172,7 +172,7 @@ export default function Project3() {
                 </motion.div>
             </motion.div>
 
-            <motion.div variants={item} style={{ marginTop: '40px' }}>
+            <motion.div variants={item}  style={{display:"flex", justifyContent:"center"}}>
                 <Link href="/" passHref>
                     <motion.button
                         whileHover={{
@@ -181,17 +181,17 @@ export default function Project3() {
                         }}
                         whileTap={{ scale: 0.98 }}
                         style={{
-                            display: 'block',
-                            width: '100%',
-                            padding: '20px',
-                            backgroundColor: '#e2e2e2',
-                            border: 'none',
+                            display: 'inline-block',
+                            padding: '12px 56px',
+                            backgroundColor: 'transparent',
+                            border: '1px solid #ff5722',
+                            color: '#ff5722',
                             textAlign: 'center',
-                            fontSize: '18px',
-                            color: '#555',
+                            fontSize: '16px',
+                            fontWeight: '500',
                             cursor: 'pointer',
-                            borderRadius: '4px',
-                            marginTop: '20px'
+                            borderRadius: '8px',
+                            transition: 'all 0.3s ease'
                         }}
                     >
                         home

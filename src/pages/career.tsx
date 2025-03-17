@@ -95,7 +95,7 @@ export default function Career() {
                 }}
                 whileHover={{
                     scale: 1.03,
-                    transition: { duration: 0.3 }
+                    transition: {duration: 0.3}
                 }}
             >
                 Career
@@ -109,10 +109,10 @@ export default function Career() {
                     color: '#333'
                 }}
             >
-                テキストテキストテキストテキスト
+                自分のキャリアについて
             </motion.p>
 
-            <div style={{ position: 'relative' }}>
+            <div style={{position: 'relative'}}>
                 {/* Timeline vertical line */}
                 <motion.div
                     variants={lineAnimation}
@@ -162,8 +162,8 @@ export default function Career() {
 
                         {/* Timeline dot */}
                         <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
+                            initial={{scale: 0}}
+                            animate={{scale: 1}}
                             transition={{
                                 delay: 0.8 + index * 0.4,
                                 type: "spring",
@@ -200,7 +200,7 @@ export default function Career() {
                 ))}
             </div>
 
-            <motion.div variants={item} style={{ marginTop: '60px' }}>
+            <motion.div variants={item} style={{marginTop: '60px'}}>
                 <h2 style={{
                     fontSize: '18px',
                     fontWeight: 'bold',
@@ -217,30 +217,34 @@ export default function Career() {
                     {additionalContent.text}
                 </p>
 
-                {/* Link コンポーネントでボタンをラップ */}
-                <Link href="./" passHref>
-                    <motion.button
-                        whileHover={{
-                            backgroundColor: '#d2d2d2',
-                            scale: 1.02
-                        }}
-                        whileTap={{ scale: 0.98 }}
-                        style={{
-                            display: 'block',
-                            width: '100%',
-                            padding: '20px',
-                            backgroundColor: '#e2e2e2',
-                            border: 'none',
-                            textAlign: 'center',
-                            fontSize: '18px',
-                            color: '#555',
-                            cursor: 'pointer',
-                            borderRadius: '2px'
-                        }}
-                    >
-                        {additionalContent.button}
-                    </motion.button>
-                </Link>
+                {/* ボタンを中央に配置するためのコンテナ */}
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <Link href="./" passHref>
+                        <motion.button
+                            whileHover={{
+                                backgroundColor: '#ff6b33',
+                                color: '#ffffff',
+                                scale: 1.02
+                            }}
+                            whileTap={{scale: 0.98}}
+                            style={{
+                                display: 'inline-block',
+                                padding: '12px 56px',
+                                backgroundColor: 'transparent',
+                                border: '1px solid #ff5722',
+                                color: '#ff5722',
+                                textAlign: 'center',
+                                fontSize: '16px',
+                                fontWeight: '500',
+                                cursor: 'pointer',
+                                borderRadius: '8px',
+                                transition: 'all 0.3s ease'
+                            }}
+                        >
+                            {additionalContent.button}
+                        </motion.button>
+                    </Link>
+                </div>
             </motion.div>
         </motion.div>
     );
