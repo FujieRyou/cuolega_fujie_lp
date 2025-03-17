@@ -6,8 +6,6 @@ import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from 'react';
 import ScrollIndicator from "@/components/scrollIndicator/ScrollIndicator";
 import FirstViewContent from "@/components/firstViewContent/FirstViewContent";
-// import ContactFormComponent from "@/components/ContactForm";
-
 
 export default function HomePage() {
     const [worksRef, worksInView] = useInView({
@@ -128,11 +126,9 @@ export default function HomePage() {
                                 <div className="p-4">
                                     <div className="flex gap-2 mb-3">
                                         <span
-                                            className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">Rails</span>
+                                            className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">PF会員増加</span>
                                         <span
-                                            className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">UI/UX</span>
-                                        <span
-                                            className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">AG LP</span>
+                                            className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">スカウト送信数UP</span>
                                     </div>
                                     <p className="text-sm text-gray-600 mb-2">うんちゃらかんちゃら</p>
                                     <div className="text-right">
@@ -217,11 +213,7 @@ export default function HomePage() {
                                 <div className="p-4">
                                     <div className="flex gap-2 mb-3">
                                         <span
-                                            className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">Rails</span>
-                                        <span
-                                            className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">React</span>
-                                        <span
-                                            className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">UI/UX</span>
+                                            className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">作業効率UP</span>
                                     </div>
                                     <p className="text-sm text-gray-600 mb-2">うんちゃらかんちゃら</p>
                                     <div className="text-right">
@@ -265,9 +257,9 @@ export default function HomePage() {
                             variants={careerVariants}
                             className="bg-gray-200 p-6 rounded-lg mb-6 shadow-md hover:shadow-lg transition-shadow duration-300"
                         >
-                            <h3 className="font-bold text-lg mb-2">こっからどないすんの</h3>
+                            <h3 className="font-bold text-lg mb-2">自分のキャリアについて</h3>
                             <p className="text-gray-700 mb-4">2025</p>
-                            <p className="text-gray-600">うんちゃらかんちゃら</p>
+                            <p className="text-gray-600">1-3年で達成したい技術的な目標や経験したいプロジェクト</p>
                         </motion.div>
 
                         <motion.div
@@ -277,13 +269,12 @@ export default function HomePage() {
                             className="text-center mt-8"
                         >
                             <Link href="/career"
-                                  className="inline-block py-3 px-6 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors duration-300">
+                                  className="inline-block py-3 px-6 border border-orange-500 text-orange-500 rounded-lg hover:bg-orange-500 hover:text-white transition-colors duration-300">
                                 View more
                             </Link>
                         </motion.div>
                     </div>
                 </motion.div>
-                {/*<ContactFormComponent />*/}
             </main>
             <footer>
                 <div className="py-5 border-t border-gray-700 text-center text-gray-400">

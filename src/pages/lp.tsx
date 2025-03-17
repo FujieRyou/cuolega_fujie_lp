@@ -1,9 +1,10 @@
 import {useState, FormEvent, ChangeEvent, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-// フォームデータの型定義
+
 interface FormData {
     name: string;
     email: string;
@@ -45,6 +46,8 @@ export default function ContactForm() {
     const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
+    const [currentStep, setCurrentStep] = useState<number>(1);
+    const totalSteps = 2;
 
     // 年の選択肢を生成（現在の年から100年前まで）
     const currentYear = new Date().getFullYear();
@@ -68,6 +71,7 @@ export default function ContactForm() {
         "バックオフィス",
         "その他",
     ];
+
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const {name, value, type} = e.target as HTMLInputElement;
 
@@ -88,6 +92,44 @@ export default function ContactForm() {
 
     const handleRecaptchaChange = (value: string | null) => {
         setRecaptchaValue(value);
+    };
+
+    const validateStep = (step: number): boolean => {
+        const tempErrors: FormErrors = {};
+
+        if (step === 1) {
+            if (!formData.name) tempErrors.name = '名前を入力してください';
+            if (!formData.email) {
+                tempErrors.email = 'メールアドレスを入力してください';
+            } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+                tempErrors.email = '有効なメールアドレスを入力してください';
+            }
+            if (!formData.address) tempErrors.address = '住所を入力してください';
+
+            // 生年月日の部分入力チェック
+            if (formData.birthdateYear && (!formData.birthdateMonth || !formData.birthdateDay)) {
+                tempErrors.birthdateMonth = '生年月日をすべて選択してください';
+            }
+        } else if (step === 2) {
+            if (!formData.message) tempErrors.message = 'メッセージを入力してください';
+            if (!formData.termOfService) tempErrors.termOfService = '利用規約に同意してください';
+            if (!recaptchaValue) tempErrors.recaptcha = 'reCAPTCHAを完了してください';
+        }
+
+        setErrors(tempErrors);
+        return Object.keys(tempErrors).length === 0;
+    };
+
+    const nextStep = () => {
+        if (validateStep(currentStep)) {
+            setCurrentStep(currentStep + 1);
+            window.scrollTo(0, 0);
+        }
+    };
+
+    const prevStep = () => {
+        setCurrentStep(currentStep - 1);
+        window.scrollTo(0, 0);
     };
 
     const validateForm = (): boolean => {
@@ -156,221 +198,475 @@ export default function ContactForm() {
         }
     }, []);
 
+    // フォーム進行状況バーのレンダリング
+    const renderProgressBar = () => {
+        return (
+            <div style={{ padding: '1rem 1.5rem 0.5rem 1.5rem' }}>
+                <div style={{
+                    width: '100%',
+                    backgroundColor: '#e5e7eb',
+                    borderRadius: '9999px',
+                    height: '0.625rem',
+                    marginBottom: '0.5rem'
+                }}>
+                    <div
+                        style={{
+                            backgroundColor: '#2563eb',
+                            height: '0.625rem',
+                            borderRadius: '9999px',
+                            transition: 'all 0.5s ease-in-out',
+                            width: `${(currentStep / totalSteps) * 100}%`
+                        }}
+                    ></div>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#6b7280' }}>
+                    <span style={{
+                        fontWeight: currentStep >= 1 ? '500' : 'normal',
+                        color: currentStep >= 1 ? '#2563eb' : '#6b7280'
+                    }}>基本情報</span>
+                    <span style={{
+                        fontWeight: currentStep >= 2 ? '500' : 'normal',
+                        color: currentStep >= 2 ? '#2563eb' : '#6b7280'
+                    }}>お問い合わせ内容</span>
+                </div>
+            </div>
+        );
+    };
+
+    const containerStyle = {
+        minHeight: '100vh',
+        background: 'linear-gradient(to bottom, #ebf5ff, #f3f4f6)',
+        padding: '3rem 0'
+    };
+
+    const wrapperStyle = {
+        maxWidth: '32rem',
+        margin: '0 auto',
+        padding: '0 1rem'
+    };
+
+    const cardStyle = {
+        backgroundColor: 'white',
+        borderRadius: '0.75rem',
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        overflow: 'hidden',
+        transform: 'translateZ(0)',
+        transition: 'all 0.3s'
+    };
+
+    const headerStyle = {
+        background: 'linear-gradient(to right, #2563eb, #1e40af)',
+        padding: '1.25rem 1.5rem'
+    };
+
+    const titleStyle = {
+        color: 'white',
+        fontSize: '1.875rem',
+        fontWeight: '700'
+    };
+
+    const subtitleStyle = {
+        color: '#bfdbfe',
+        marginTop: '0.5rem'
+    };
+
+    const formStyle = {
+        padding: '1.5rem',
+        display: 'flex',
+        flexDirection: 'column' as const,
+        gap: '1.5rem'
+    };
+
+    const formGroupStyle = {
+        marginBottom: '1.5rem'
+    };
+
+    const labelStyle = {
+        display: 'block',
+        fontSize: '0.875rem',
+        fontWeight: '500',
+        color: '#374151',
+        marginBottom: '0.5rem'
+    };
+
+    const inputStyle = {
+        width: '100%',
+        padding: '0.75rem 1rem',
+        border: '1px solid #d1d5db',
+        borderRadius: '0.5rem',
+        boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        transition: 'all 0.15s ease'
+    };
+
+    const textareaStyle = {
+        ...inputStyle,
+        minHeight: '8rem',
+        resize: 'vertical' as const
+    };
+
+    const selectStyle = {
+        ...inputStyle
+    };
+
+    const dateGridStyle = {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '0.75rem'
+    };
+
+    const errorStyle = {
+        color: '#ef4444',
+        fontSize: '0.75rem',
+        fontStyle: 'italic',
+        marginTop: '0.25rem'
+    };
+
+    const checkboxContainerStyle = {
+        display: 'flex',
+        alignItems: 'flex-start',
+        paddingTop: '0.5rem'
+    };
+
+    const checkboxWrapperStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        height: '1.25rem'
+    };
+
+    const checkboxStyle = {
+        width: '1.25rem',
+        height: '1.25rem',
+        color: '#2563eb',
+        borderColor: '#d1d5db',
+        borderRadius: '0.25rem'
+    };
+
+    const recaptchaContainerStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+        paddingTop: '1rem'
+    };
+
+    const buttonContainerStyle = {
+        display: 'flex',
+        gap: '1rem',
+        paddingTop: '1rem'
+    };
+
+
+
+    const footerStyle = {
+        marginTop: '2rem',
+        textAlign: 'center' as const
+    };
+
+    const footerTextStyle = {
+        color: '#6b7280',
+        fontSize: '0.875rem'
+    };
+
+    const footerLinksStyle = {
+        marginTop: '1rem',
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '1rem'
+    };
+
+
+
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12">
-            <div className="container mx-auto px-4 max-w-lg">
+        <div style={containerStyle}>
+            <div style={wrapperStyle}>
                 <Head>
                     <title>Engineer FujieRyo | お問い合わせ</title>
                 </Head>
 
-                <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <div className="bg-blue-600 px-6 py-4">
-                        <h1 className="text-2xl font-bold text-white">お問い合わせ</h1>
-                        <p className="text-blue-100 mt-1">ご質問・ご相談はこちらから</p>
+                <div style={cardStyle}>
+                    <div style={headerStyle}>
+                        <h1 style={titleStyle}>お問い合わせ</h1>
+                        <p style={subtitleStyle}>ご質問・ご相談はこちらから</p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                        {/* 名前フィールド */}
-                        <div className="space-y-2">
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                                お名前 <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                                placeholder="山田 太郎"
-                            />
-                            {errors.name && <p className="text-red-500 text-xs italic">{errors.name}</p>}
-                        </div>
+                    {renderProgressBar()}
 
-                        {/* メールアドレスフィールド */}
-                        <div className="space-y-2">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                メールアドレス <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                                placeholder="email@example.com"
-                            />
-                            {errors.email && <p className="text-red-500 text-xs italic">{errors.email}</p>}
-                        </div>
-
-                        {/* 生年月日フィールド */}
-                        <div className="space-y-2">
-                            <label className="block text-sm font-medium text-gray-700">
-                                生年月日
-                            </label>
-                            <div className="grid grid-cols-3 gap-2">
-                                <select
-                                    name="birthdateYear"
-                                    value={formData.birthdateYear}
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                                >
-                                    <option value="">年</option>
-                                    {years.map(year => (
-                                        <option key={year} value={year}>{year}</option>
-                                    ))}
-                                </select>
-                                <select
-                                    name="birthdateMonth"
-                                    value={formData.birthdateMonth}
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                                >
-                                    <option value="">月</option>
-                                    {months.map(month => (
-                                        <option key={month} value={month}>{month}</option>
-                                    ))}
-                                </select>
-                                <select
-                                    name="birthdateDay"
-                                    value={formData.birthdateDay}
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                                >
-                                    <option value="">日</option>
-                                    {days.map(day => (
-                                        <option key={day} value={day}>{day}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            {(errors.birthdateYear || errors.birthdateMonth || errors.birthdateDay) && (
-                                <p className="text-red-500 text-xs italic">
-                                    {errors.birthdateYear || errors.birthdateMonth || errors.birthdateDay}
-                                </p>
-                            )}
-                        </div>
-
-                        {/* 部署フィールド */}
-                        <div className="space-y-2">
-                            <label htmlFor="departmentName" className="block text-sm font-medium text-gray-700">
-                                お問い合わせ部署
-                            </label>
-                            <select
-                                id="departmentName"
-                                name="departmentName"
-                                value={formData.departmentName}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                            >
-                                <option value="">選択してください</option>
-                                {departments.map(dept => (
-                                    <option key={dept} value={dept}>{dept}</option>
-                                ))}
-                            </select>
-                            {errors.departmentName &&
-                                <p className="text-red-500 text-xs italic">{errors.departmentName}</p>}
-                        </div>
-
-                        {/* 住所フィールド */}
-                        <div className="space-y-2">
-                            <label htmlFor="address" className="block text-sm font-medium text-gray-700">
-                                住所 <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="text"
-                                id="address"
-                                name="address"
-                                value={formData.address}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                                placeholder="例: 東京都千代田区〇〇町1-1-1"
-                            />
-                            {errors.address && <p className="text-red-500 text-xs italic">{errors.address}</p>}
-                        </div>
-
-                        {/* お問い合わせ内容フィールド */}
-                        <div className="space-y-2">
-                            <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                                お問い合わせ内容 <span className="text-red-500">*</span>
-                            </label>
-                            <textarea
-                                id="message"
-                                name="message"
-                                value={formData.message}
-                                onChange={handleChange}
-                                rows={5}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                                placeholder="お問い合わせ内容を入力してください"
-                            ></textarea>
-                            {errors.message && <p className="text-red-500 text-xs italic">{errors.message}</p>}
-                        </div>
-
-                        {/* 利用規約の同意 */}
-                        <div className="pt-2">
-                            <div className="flex items-start">
-                                <div className="flex items-center h-5">
+                    <form onSubmit={handleSubmit} style={formStyle}>
+                        {currentStep === 1 && (
+                            <>
+                                {/* ステップ1: 基本情報 */}
+                                {/* 名前フィールド */}
+                                <div style={formGroupStyle}>
+                                    <label htmlFor="name" style={labelStyle}>
+                                        お名前 <span style={{color: '#ef4444'}}>*</span>
+                                    </label>
                                     <input
-                                        type="checkbox"
-                                        id="termOfService"
-                                        name="termOfService"
-                                        checked={formData.termOfService === 'agreed'}
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        value={formData.name}
                                         onChange={handleChange}
-                                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                        style={inputStyle}
+                                        placeholder="山田 太郎"
+                                    />
+                                    {errors.name && <p style={errorStyle}>{errors.name}</p>}
+                                </div>
+
+                                {/* メールアドレスフィールド */}
+                                <div style={formGroupStyle}>
+                                    <label htmlFor="email" style={labelStyle}>
+                                        メールアドレス <span style={{color: '#ef4444'}}>*</span>
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        style={inputStyle}
+                                        placeholder="email@example.com"
+                                    />
+                                    {errors.email && <p style={errorStyle}>{errors.email}</p>}
+                                </div>
+
+                                {/* 生年月日フィールド */}
+                                <div style={formGroupStyle}>
+                                    <label style={labelStyle}>
+                                        生年月日
+                                    </label>
+                                    <div style={dateGridStyle}>
+                                        <select
+                                            name="birthdateYear"
+                                            value={formData.birthdateYear}
+                                            onChange={handleChange}
+                                            style={selectStyle}
+                                        >
+                                            <option value="">年</option>
+                                            {years.map(year => (
+                                                <option key={year} value={year}>{year}</option>
+                                            ))}
+                                        </select>
+                                        <select
+                                            name="birthdateMonth"
+                                            value={formData.birthdateMonth}
+                                            onChange={handleChange}
+                                            style={selectStyle}
+                                        >
+                                            <option value="">月</option>
+                                            {months.map(month => (
+                                                <option key={month} value={month}>{month}</option>
+                                            ))}
+                                        </select>
+                                        <select
+                                            name="birthdateDay"
+                                            value={formData.birthdateDay}
+                                            onChange={handleChange}
+                                            style={selectStyle}
+                                        >
+                                            <option value="">日</option>
+                                            {days.map(day => (
+                                                <option key={day} value={day}>{day}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    {(errors.birthdateYear || errors.birthdateMonth || errors.birthdateDay) && (
+                                        <p style={errorStyle}>
+                                            {errors.birthdateYear || errors.birthdateMonth || errors.birthdateDay}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* 部署フィールド */}
+                                <div style={formGroupStyle}>
+                                    <label htmlFor="departmentName" style={labelStyle}>
+                                        お問い合わせ部署
+                                    </label>
+                                    <select
+                                        id="departmentName"
+                                        name="departmentName"
+                                        value={formData.departmentName}
+                                        onChange={handleChange}
+                                        style={selectStyle}
+                                    >
+                                        <option value="">選択してください</option>
+                                        {departments.map(dept => (
+                                            <option key={dept} value={dept}>{dept}</option>
+                                        ))}
+                                    </select>
+                                    {errors.departmentName && <p style={errorStyle}>{errors.departmentName}</p>}
+                                </div>
+
+                                {/* 住所フィールド */}
+                                <div style={formGroupStyle}>
+                                    <label htmlFor="address" style={labelStyle}>
+                                        住所 <span style={{color: '#ef4444'}}>*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="address"
+                                        name="address"
+                                        value={formData.address}
+                                        onChange={handleChange}
+                                        style={inputStyle}
+                                        placeholder="例: 東京都千代田区〇〇町1-1-1"
+                                    />
+                                    {errors.address && <p style={errorStyle}>{errors.address}</p>}
+                                </div>
+
+                                {/* 次へボタン */}
+                                <div style={{paddingTop: '1rem'}}>
+                                    <button
+                                        type="button"
+                                        onClick={nextStep}
+                                        style={{
+                                            display: 'inline-block',
+                                            width: '100%',
+                                            padding: '12px 56px',
+                                            backgroundColor: '#ff5722',
+                                            color: 'white',
+                                            textAlign: 'center',
+                                            fontSize: '16px',
+                                            fontWeight: '500',
+                                            cursor: 'pointer',
+                                            borderRadius: '8px',
+                                            transition: 'all 0.3s ease',
+                                            border: 'none',
+                                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                                        }}
+                                    >
+                                        次へ進む
+                                    </button>
+                                </div>
+                            </>
+                        )}
+
+                        {currentStep === 2 && (
+                            <>
+                                {/* ステップ2: お問い合わせ内容 */}
+                                {/* お問い合わせ内容フィールド */}
+                                <div style={formGroupStyle}>
+                                    <label htmlFor="message" style={labelStyle}>
+                                        お問い合わせ内容 <span style={{color: '#ef4444'}}>*</span>
+                                    </label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        rows={5}
+                                        style={textareaStyle}
+                                        placeholder="お問い合わせ内容を入力してください"
+                                    ></textarea>
+                                    {errors.message && <p style={errorStyle}>{errors.message}</p>}
+                                </div>
+
+                                {/* 利用規約の同意 */}
+                                <div style={checkboxContainerStyle}>
+                                    <div style={checkboxWrapperStyle}>
+                                        <input
+                                            type="checkbox"
+                                            id="termOfService"
+                                            name="termOfService"
+                                            checked={formData.termOfService === 'agreed'}
+                                            onChange={handleChange}
+                                            style={checkboxStyle}
+                                        />
+                                    </div>
+                                    <div style={{marginLeft: '0.75rem', fontSize: '0.875rem'}}>
+                                        <label htmlFor="termOfService" style={{fontWeight: '500', color: '#374151'}}>
+                                            <span style={{color: '#ef4444', marginRight: '0.25rem'}}>*</span>
+                                            <Link href="/terms" target="_blank"
+                                                  style={{color: '#2563eb', textDecoration: 'underline'}}>利用規約</Link>に同意します
+                                        </label>
+                                    </div>
+                                </div>
+                                {errors.termOfService && <p style={errorStyle}>{errors.termOfService}</p>}
+
+                                {/* reCAPTCHA */}
+                                <div style={recaptchaContainerStyle}>
+                                    <ReCAPTCHA
+                                        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+                                        onChange={handleRecaptchaChange}
+                                        theme="light"
+                                        size="normal"
+                                        onErrored={() => console.error('reCAPTCHA エラー')}
                                     />
                                 </div>
-                                <div className="ml-3 text-sm">
-                                    <label htmlFor="termOfService" className="font-medium text-gray-700">
-                                        <span className="text-red-500 mr-1">*</span>
-                                        <a href="/terms" target="_blank"
-                                           className="text-blue-600 hover:text-blue-800 underline">利用規約</a>に同意します
-                                    </label>
+                                {errors.recaptcha && <p style={{...errorStyle, textAlign: 'center'}}>{errors.recaptcha}</p>}
+
+                                {/* ボタングループ */}
+                                <div style={buttonContainerStyle}>
+                                    <button
+                                        type="button"
+                                        onClick={prevStep}
+                                        style={{
+                                            display: 'inline-block',
+                                            padding: '12px 56px',
+                                            backgroundColor: 'transparent',
+                                            border: '1px solid #ff5722',
+                                            color: '#ff5722',
+                                            textAlign: 'center',
+                                            fontSize: '16px',
+                                            fontWeight: '500',
+                                            cursor: 'pointer',
+                                            borderRadius: '8px',
+                                            transition: 'all 0.3s ease',
+                                            flex: 1
+                                        }}
+                                    >
+                                        戻る
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        style={{
+                                            display: 'inline-block',
+                                            padding: '12px 56px',
+                                            backgroundColor: '#ff5722',
+                                            color: 'white',
+                                            textAlign: 'center',
+                                            fontSize: '16px',
+                                            fontWeight: '500',
+                                            cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                                            borderRadius: '8px',
+                                            transition: 'all 0.3s ease',
+                                            border: 'none',
+                                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                                            opacity: isSubmitting ? 0.5 : 1,
+                                            flex: 2
+                                        }}
+                                    >
+                                        {isSubmitting ? (
+                                            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                                <svg style={{
+                                                    animation: 'spin 1s linear infinite',
+                                                    marginRight: '0.75rem',
+                                                    height: '1.25rem',
+                                                    width: '1.25rem'
+                                                }}
+                                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle style={{opacity: 0.25}} cx="12" cy="12" r="10" stroke="currentColor"
+                                                            strokeWidth="4"></circle>
+                                                    <path style={{opacity: 0.75}} fill="currentColor"
+                                                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                送信中...
+                                            </div>
+                                        ) : '送信する'}
+                                    </button>
                                 </div>
-                            </div>
-                            {errors.termOfService &&
-                                <p className="text-red-500 text-xs italic mt-1">{errors.termOfService}</p>}
-                        </div>
-
-                        {/* reCAPTCHA */}
-                        <div className="flex justify-center pt-4">
-                            <ReCAPTCHA
-                                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
-                                onChange={handleRecaptchaChange}
-                                theme="light"
-                                size="normal"
-                                onErrored={() => console.error('reCAPTCHA エラー')}
-                            />
-                        </div>
-                        {errors.recaptcha &&
-                            <p className="text-red-500 text-xs italic text-center">{errors.recaptcha}</p>}
-
-                        {/* 送信ボタン */}
-                        <div className="pt-4">
-                            <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md shadow-md transition-all transform hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:pointer-events-none"
-                            >
-                                {isSubmitting ? (
-                                    <div className="flex items-center justify-center">
-                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                                    strokeWidth="4"></circle>
-                                            <path className="opacity-75" fill="currentColor"
-                                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                        送信中...
-                                    </div>
-                                ) : '送信する'}
-                            </button>
-                        </div>
+                            </>
+                        )}
                     </form>
                 </div>
 
-                <p className="text-center text-gray-500 text-sm mt-8">
-                    お問い合わせいただきありがとうございます。通常2営業日以内にご返信いたします。
-                </p>
+                <div style={footerStyle}>
+                    <p style={footerTextStyle}>
+                        お問い合わせいただきありがとうございます。通常2営業日以内にご返信いたします。
+                    </p>
+                    <div style={footerLinksStyle}>
+                        <Link href="/" style={{color: '#2563eb', fontSize: '0.875rem'}}>ホームに戻る</Link>
+                        <Link href="/faq" style={{color: '#2563eb', fontSize: '0.875rem'}}>よくある質問</Link>
+                    </div>
+                </div>
             </div>
         </div>
     );
