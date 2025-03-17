@@ -16,7 +16,6 @@ interface FormData {
     termOfService: string;
 }
 
-// エラーオブジェクトの型定義
 interface FormErrors {
     name?: string;
     email?: string;
