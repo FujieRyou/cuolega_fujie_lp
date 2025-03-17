@@ -273,7 +273,7 @@ export default function ContactForm() {
     const formStyle = {
         padding: '1.5rem',
         display: 'flex',
-        flexDirection: 'column' as 'column',
+        flexDirection: 'column' as const,
         gap: '1.5rem'
     };
 
@@ -301,7 +301,7 @@ export default function ContactForm() {
     const textareaStyle = {
         ...inputStyle,
         minHeight: '8rem',
-        resize: 'vertical' as 'vertical'
+        resize: 'vertical' as const
     };
 
     const selectStyle = {
@@ -341,13 +341,6 @@ export default function ContactForm() {
         borderRadius: '0.25rem'
     };
 
-    const checkboxLabelStyle = {
-        marginLeft: '0.75rem',
-        fontSize: '0.875rem',
-        fontWeight: '500',
-        color: '#374151'
-    };
-
     const recaptchaContainerStyle = {
         display: 'flex',
         justifyContent: 'center',
@@ -360,40 +353,11 @@ export default function ContactForm() {
         paddingTop: '1rem'
     };
 
-    const primaryButtonStyle = {
-        display: 'inline-block',
-        padding: '12px 56px',
-        backgroundColor: '#ff5722',
-        color: 'white',
-        textAlign: 'center',
-        fontSize: '16px',
-        fontWeight: '500',
-        cursor: 'pointer',
-        borderRadius: '8px',
-        transition: 'all 0.3s ease',
-        border: 'none',
-        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        flex: '2'
-    };
 
-    const secondaryButtonStyle = {
-        display: 'inline-block',
-        padding: '12px 32px',
-        backgroundColor: 'transparent',
-        border: '1px solid #ff5722',
-        color: '#ff5722',
-        textAlign: 'center',
-        fontSize: '16px',
-        fontWeight: '500',
-        cursor: 'pointer',
-        borderRadius: '8px',
-        transition: 'all 0.3s ease',
-        flex: '1'
-    };
 
     const footerStyle = {
         marginTop: '2rem',
-        textAlign: 'center' as 'center'
+        textAlign: 'center' as const
     };
 
     const footerTextStyle = {
@@ -408,14 +372,7 @@ export default function ContactForm() {
         gap: '1rem'
     };
 
-    const footerLinkStyle = {
-        color: '#2563eb',
-        fontSize: '0.875rem',
-        textDecoration: 'none',
-        ':hover': {
-            color: '#1d4ed8'
-        }
-    };
+
 
     return (
         <div style={containerStyle}>
