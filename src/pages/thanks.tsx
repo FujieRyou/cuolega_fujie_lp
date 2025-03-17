@@ -19,58 +19,158 @@ export default function ThanksPage() {
         }
     }, [router]);
 
-    return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-            <Head>
-                <title>お問い合わせありがとうございます | Engineer FujieRyo</title>
-                <meta name="description" content="お問い合わせありがとうございます。確認メールをご確認ください。" />
-            </Head>
+    // スタイル設定
+    const pageStyle = {
+        minHeight: '100vh',
+        backgroundColor: '#f0f2f5',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px 0'
+    };
 
-            <div className="max-w-md w-full">
-                <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all">
-                    <div className="bg-green-600 px-6 py-4 text-center">
-                        <h1 className="text-2xl font-bold text-white">お問い合わせ完了</h1>
+    const containerStyle = {
+        maxWidth: '500px',
+        width: '100%',
+        margin: '0 auto',
+        padding: '0 20px'
+    };
+
+    const cardStyle = {
+        backgroundColor: 'white',
+        borderRadius: '10px',
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+        overflow: 'hidden'
+    };
+
+    const headerStyle = {
+        backgroundColor: '#4CAF50',
+        padding: '20px',
+        color: 'white',
+        textAlign: 'center' as const
+    };
+
+    const headerTitleStyle = {
+        fontSize: '24px',
+        fontWeight: 'bold',
+        margin: '0'
+    };
+
+    const contentStyle = {
+        padding: '30px 20px',
+        display: 'flex',
+        flexDirection: 'column' as const,
+        alignItems: 'center'
+    };
+
+    const iconContainerStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '80px',
+        height: '80px',
+        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+        borderRadius: '50%',
+        marginBottom: '20px'
+    };
+
+    const titleStyle = {
+        fontSize: '20px',
+        fontWeight: '600',
+        color: '#333',
+        marginBottom: '20px',
+        textAlign: 'center' as const
+    };
+
+    const messageStyle = {
+        fontSize: '16px',
+        color: '#666',
+        lineHeight: '1.6',
+        textAlign: 'center' as const,
+        marginBottom: '30px'
+    };
+
+    const dividerStyle = {
+        width: '60px',
+        height: '1px',
+        backgroundColor: '#e0e0e0',
+        margin: '20px auto'
+    };
+
+    const buttonStyle = {
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#3b5fe3',
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
+        padding: '12px 24px',
+        fontSize: '16px',
+        fontWeight: '500',
+        cursor: 'pointer',
+        textDecoration: 'none'
+    };
+
+    const buttonIconStyle = {
+        marginRight: '8px'
+    };
+
+    const footerStyle = {
+        textAlign: 'center' as const,
+        color: '#666',
+        fontSize: '14px',
+        margin: '20px 0'
+    };
+
+    return (
+        <div style={pageStyle}>
+            <div style={containerStyle}>
+                <Head>
+                    <title>お問い合わせありがとうございます | Engineer FujieRyo</title>
+                    <meta name="description" content="お問い合わせありがとうございます。確認メールをご確認ください。" />
+                </Head>
+
+                <div style={cardStyle}>
+                    <div style={headerStyle}>
+                        <h1 style={headerTitleStyle}>お問い合わせ完了</h1>
                     </div>
 
-                    <div className="p-8">
-                        <div className="flex flex-col items-center">
-                            <div className="rounded-full bg-green-100 p-3 mb-6">
-                                <svg className="w-16 h-16 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
-
-                            <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                                お問い合わせありがとうございます
-                            </h2>
-
-                            <div className="text-center mb-8 space-y-4">
-                                <p className="text-gray-600">
-                                    お問い合わせを受け付けました。<br />
-                                    確認メールを送信しましたのでご確認ください。
-                                </p>
-
-                                <div className="h-px bg-gray-200 w-24 mx-auto"></div>
-
-                                <p className="text-gray-600">
-                                    内容を確認の上、担当者より折り返しご連絡いたします。<br />
-                                    しばらくお待ちくださいませ。
-                                </p>
-                            </div>
-
-                            <Link href="/">
-                                <span className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-md shadow-md transition-all transform hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                                    </svg>
-                                    トップページに戻る
-                                </span>
-                            </Link>
+                    <div style={contentStyle}>
+                        <div style={iconContainerStyle}>
+                            <svg style={{width: '40px', height: '40px', color: '#4CAF50'}} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
                         </div>
+
+                        <h2 style={titleStyle}>
+                            お問い合わせありがとうございます
+                        </h2>
+
+                        <div style={messageStyle}>
+                            <p>
+                                お問い合わせを受け付けました。<br />
+                                確認メールを送信しましたのでご確認ください。
+                            </p>
+
+                            <div style={dividerStyle}></div>
+
+                            <p>
+                                内容を確認の上、担当者より折り返しご連絡いたします。<br />
+                                しばらくお待ちくださいませ。
+                            </p>
+                        </div>
+
+                        <Link href="/" style={buttonStyle}>
+                            <svg style={buttonIconStyle} width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                            </svg>
+                            トップページに戻る
+                        </Link>
                     </div>
                 </div>
 
-                <div className="text-center text-gray-500 text-sm mt-8">
+                <div style={footerStyle}>
                     ご不明な点がございましたら、お気軽にお問い合わせください。
                 </div>
             </div>

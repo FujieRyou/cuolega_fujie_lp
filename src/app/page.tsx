@@ -130,7 +130,7 @@ export default function HomePage() {
                                         <span
                                             className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">スカウト送信数UP</span>
                                     </div>
-                                    <p className="text-sm text-gray-600 mb-2">うんちゃらかんちゃら</p>
+                                    <p className="text-sm text-gray-600 mb-2">初プロジェクト</p>
                                     <div className="text-right">
                                         <span className="inline-flex items-center text-sm text-orange-500 font-medium group">
                                             詳細を見る
@@ -173,7 +173,7 @@ export default function HomePage() {
                                         <span
                                             className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">UI/UX</span>
                                     </div>
-                                    <p className="text-sm text-gray-600 mb-2">うんちゃらかんちゃら</p>
+                                    <p className="text-sm text-gray-600 mb-2">新技術に触れる</p>
                                     <div className="text-right">
                                         <span
                                             className="inline-flex items-center text-sm text-orange-500 font-medium group">
@@ -198,7 +198,7 @@ export default function HomePage() {
                                 className="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-102 bg-white border border-gray-100"
                             >
                                 <div className="p-4 justify-between items-center border-b border-gray-100">
-                                    <h3 className="font-bold text-gray-800 text-lg">AgentDX</h3>
+                                    <h3 className="font-bold text-gray-800 text-lg">foodslaboEf</h3>
                                     <p className="text-xs text-orange-600 py-1 rounded-full font-medium">2024.12</p>
                                 </div>
 
@@ -215,7 +215,7 @@ export default function HomePage() {
                                         <span
                                             className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">作業効率UP</span>
                                     </div>
-                                    <p className="text-sm text-gray-600 mb-2">うんちゃらかんちゃら</p>
+                                    <p className="text-sm text-gray-600 mb-2">会員登録フォーム一新</p>
                                     <div className="text-right">
                                         <span
                                             className="inline-flex items-center text-sm text-orange-500 font-medium group">
@@ -257,9 +257,11 @@ export default function HomePage() {
                             variants={careerVariants}
                             className="bg-gray-200 p-6 rounded-lg mb-6 shadow-md hover:shadow-lg transition-shadow duration-300"
                         >
-                            <h3 className="font-bold text-lg mb-2">自分のキャリアについて</h3>
-                            <p className="text-gray-700 mb-4">2025</p>
-                            <p className="text-gray-600">1-3年で達成したい技術的な目標や経験したいプロジェクト</p>
+                            <Link href={"/career"}>
+                                <h3 className="font-bold text-lg mb-2">自分のキャリアについて</h3>
+                                <p className="text-gray-700 mb-4">2025</p>
+                                <p className="text-gray-600">1-3年で達成したい技術的な目標や経験したいプロジェクト</p>
+                            </Link>
                         </motion.div>
 
                         <motion.div
