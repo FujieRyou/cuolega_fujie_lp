@@ -278,8 +278,9 @@ export default function Project1() {
                 <Link href="/" passHref>
                     <motion.button
                         whileHover={{
-                            backgroundColor: '#d2d2d2',
-                            scale: 1.02
+                            backgroundColor: '#ff5722',
+                            scale: 1.02,
+                            color:"#fff"
                         }}
                         whileTap={{ scale: 0.98 }}
                         style={{
