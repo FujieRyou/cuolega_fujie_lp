@@ -1,6 +1,7 @@
 import {useState, FormEvent, ChangeEvent, useEffect} from 'react';
 import {useRouter} from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 
@@ -402,8 +403,8 @@ export default function ContactForm() {
                                         <div className="ml-3 text-sm">
                                             <label htmlFor="termOfService" className="font-medium text-gray-700">
                                                 <span className="text-red-500 mr-1">*</span>
-                                                <a href="/terms" target="_blank"
-                                                   className="text-blue-600 hover:text-blue-800 underline">利用規約</a>に同意します
+                                                <Link href="/terms" target="_blank"
+                                                      className="text-blue-600 hover:text-blue-800 underline">利用規約</Link>に同意します
                                             </label>
                                         </div>
                                     </div>
@@ -462,8 +463,8 @@ export default function ContactForm() {
                         お問い合わせいただきありがとうございます。通常2営業日以内にご返信いたします。
                     </p>
                     <div className="mt-4 flex justify-center space-x-4">
-                        <a href="/" className="text-blue-600 hover:text-blue-800 text-sm">ホームに戻る</a>
-                        <a href="/faq" className="text-blue-600 hover:text-blue-800 text-sm">よくある質問</a>
+                        <Link href="/" className="text-blue-600 hover:text-blue-800 text-sm">ホームに戻る</Link>
+                        <Link href="/faq" className="text-blue-600 hover:text-blue-800 text-sm">よくある質問</Link>
                     </div>
                 </div>
             </div>
