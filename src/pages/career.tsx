@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-// Next.jsのLinkコンポーネントをインポート
 import Link from 'next/link';
 
 export default function Career() {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        // クライアントサイドでのみ実行されるコードを明示的に分離
         if (typeof window !== 'undefined') {
             setIsLoaded(true);
         }
@@ -16,23 +14,23 @@ export default function Career() {
     // Career entries data
     const careerEntries = [
         {
-            date: '2025/07',
-            text: 'テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト'
+            date: '2026/03',
+            text: 'インフラの基礎から応用まで幅広く学習。クラウドプラットフォーム（AWS/GCP/Azure）、コンテナ技術、CI/CD、ネットワーク、セキュリティの知識を体系的に習得。自分の手で環境構築からデプロイまで一貫して行える技術力を養成。'
         },
         {
-            date: '2025/07',
-            text: 'テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト'
+            date: '2027/09',
+            text: 'バックエンド、フロントエンド、データベース設計など、システム全体を俯瞰できるフルスタックな技術者を目指す。プロジェクト単位で一人でも構築・運用できる総合力を養成。問題解決能力と技術選定の知見を深める'
         },
         {
-            date: '2025/07',
-            text: 'テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト'
+            date: '2027/10',
+            text: 'エンジニアリングスキルを基盤としながら、プロダクトマネジメント、UXデザイン、ビジネス戦略などの領域にも挑戦。技術と事業の両面から価値を創出できる人材へと成長。起業や新規事業立ち上げなど、より大きなチャレンジへ'
         }
     ];
 
     // Additional content
     const additionalContent = {
-        title: '軽いタイトル的な',
-        text: 'テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト',
+        title: '素直に',
+        text: 'すべてを一度に習得しようとせず、今の業務を大切にしながら少しずつスキルアップしていくことが大切です。先輩エンジニアにわからないことを質問したり、オンライン学習で基礎を固めたりしながら成長していきます',
         button: '戻る的な'
     };
 
@@ -240,7 +238,7 @@ export default function Career() {
                             borderRadius: '2px'
                         }}
                     >
-                        {additionalContent.button || "戻る的な"}
+                        {additionalContent.button}
                     </motion.button>
                 </Link>
             </motion.div>

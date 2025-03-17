@@ -1,42 +1,41 @@
-// FirstViewContent.jsx
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 const FirstViewContent = () => {
-    // アニメーションの状態を管理
+
     const [isVisible, setIsVisible] = useState(false);
 
-    // コンポーネントのマウント時にアニメーションを開始
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsVisible(true);
-        }, 500); // 画面が読み込まれてから0.5秒後に開始
+        }, 500);
 
         return () => clearTimeout(timer);
     }, []);
 
-    // 各要素のアニメーション設定
+
     const containerVariants = {
         hidden: { opacity: 1 },
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.5, // 子要素を0.5秒ずつ遅延して表示
-                delayChildren: 0.3 // 最初の要素は0.3秒待ってから表示
+                staggerChildren: 0.5,
+                delayChildren: 0.3
             }
         }
     };
 
-    // マスクアニメーション用の設定
+
     const maskVariants = {
         hidden: {
-            clipPath: "inset(0 100% 0 0)" // 右から0%表示（完全に隠れている）
+            clipPath: "inset(0 100% 0 0)"
         },
         visible: {
-            clipPath: "inset(0 0% 0 0)", // 右から100%表示（完全に見える）
+            clipPath: "inset(0 0% 0 0)",
             transition: {
-                duration: 0.8, // 0.8秒かけて表示
-                ease: "easeInOut" // イーズイン・アウトで滑らかに
+                duration: 0.8,
+                ease: "easeInOut"
             }
         }
     };
