@@ -30,8 +30,8 @@ export default function Career() {
     // Additional content
     const additionalContent = {
         title: '素直に',
-        text: 'すべてを一度に習得しようとせず、今の業務を大切にしながら少しずつスキルアップしていくことが大切です。先輩エンジニアにわからないことを質問したり、オンライン学習で基礎を固めたりしながら成長していきます',
-        button: '戻る的な'
+        text: 'すべてを一度に習得しようとせず、今の業務を大切にしながら少しずつスキルアップしていくことを大切にしています。先輩エンジニアにわからないことを質問したり、オンライン学習で基礎を固めたりしながら成長していきます',
+        button: 'Home'
     };
 
     // Animation variants
